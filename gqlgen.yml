@@ -1,0 +1,37 @@
+schema:
+  - internal/handler/graphql/schema.graphqls
+
+exec:
+  filename: internal/handler/graphql/generated/generated.go
+  package: generated
+
+model:
+  filename: internal/handler/graphql/graphmodel/models_gen.go
+  package: graphmodel
+
+resolver:
+  layout: follow-schema
+  dir: internal/handler/graphql
+  package: graphql
+  filename_template: "{name}.resolvers.go"
+
+autobind:
+  - posts-service/internal/model
+
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.ID
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int32
+  Post:
+    model: posts-service/internal/model.Post
+    fields:
+      comments:
+        resolver: true
+  Comment:
+    model: posts-service/internal/model.Comment
+    fields:
+      replies:
+        resolver: true
